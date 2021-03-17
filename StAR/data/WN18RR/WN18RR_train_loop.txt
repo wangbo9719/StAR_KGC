@@ -1,0 +1,8 @@
+['thralldom, the state of being under the control of another person', '_derivationally_related_form', 'thralldom, the state of being under the control of another person']
+['stripteaser, a performer who provides erotic entertainment by undressing to music', '_derivationally_related_form', 'stripteaser, a performer who provides erotic entertainment by undressing to music']
+['interrelationship, mutual or reciprocal relation or relatedness; "interrelationships of animal structure and function"', '_derivationally_related_form', 'interrelationship, mutual or reciprocal relation or relatedness; "interrelationships of animal structure and function"']
+['lapidary, an expert on precious stones and the art of cutting and engraving them', '_derivationally_related_form', 'lapidary, an expert on precious stones and the art of cutting and engraving them']
+['unicycle, a vehicle with a single wheel that is driven by pedals', '_derivationally_related_form', 'unicycle, a vehicle with a single wheel that is driven by pedals']
+['township, an administrative division of a county; "the town is responsible for snow removal"', '_derivationally_related_form', 'township, an administrative division of a county; "the town is responsible for snow removal"']
+['lapidist, a skilled worker who cuts and engraves precious stones', '_derivationally_related_form', 'lapidist, a skilled worker who cuts and engraves precious stones']
+7
