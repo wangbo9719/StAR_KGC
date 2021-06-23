@@ -8,7 +8,7 @@ The repository is partially based on [huggingface transformers](https://github.c
 
 ## 2. Installing requirement packages
 - conda create -n StAR python=3.6 
-- source activate stelp 
+- source activate StAR
 - pip install numpy torch tensorboardX tqdm boto3 requests regex sacremoses sentencepiece 
 
 ##### 2.1 Optional package (for mixed float Computation)
