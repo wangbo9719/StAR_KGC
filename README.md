@@ -216,7 +216,7 @@ python run_link_prediction.py \
 		--fp16 
 	```
 	
-	- Run the ./codes/run.py in rotate. (please replace the TRAINED_MODEL_PATH with your own trained model's path)
+	- Run the ./codes/run.py in rotate. (please replace the *TRAINED_MODEL_PATH* with your own trained model's path)
 	```
 	CUDA_VISIBLE_DEVICES=2 python ./codes/run.py \
 		--cuda --init ./models/RotatE_wn18rr_0 \
@@ -227,7 +227,7 @@ python run_link_prediction.py \
 	
 #### 5.2 Train and Test
 - Run the run.py in ./StAR/ensemble. Note the `--mode` should be alternate in `head` and `tail`, and perform a average operation to get the final results. 
-- Note: Please replace YOUR_OUTPUT_DIR, TRAINED_MODEL_PATH and `StAR_FILE_PATH` in ./StAR/peach/common.py with your own paths to run the command and code.
+- Note: Please replace *YOUR_OUTPUT_DIR*, *TRAINED_MODEL_PATH* and *StAR_FILE_PATH* in ./StAR/peach/common.py with your own paths to run the command and code.
 ```
 CUDA_VISIBLE_DEVICES=0 python run.py \
 --do_train --do_eval --do_prediction --seen_feature \
