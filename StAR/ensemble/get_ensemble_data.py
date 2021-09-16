@@ -4,19 +4,14 @@ import collections
 import os
 import random
 import torch
-import torch.nn as nn
-from torch.utils.data import Dataset
 from os.path import join
-from peach.common import file_exists, dir_exists, save_json, load_json
-from tqdm import tqdm, trange
+from peach.common import file_exists, dir_exists, save_json, load_json, StAR_FILE_PATH
+from tqdm import tqdm
 from transformers import BertConfig, BertTokenizer, RobertaConfig, RobertaTokenizer
 from kbc.kb_dataset import KbDataset
 from kbc.models import BertForPairScoring, RobertaForPairScoring
 from kbc.metric import calculate_metrics_for_link_prediction, safe_ranking
-from kbc.utils_fn import train
 import numpy as np
-import json
-import xlwt
 
 def safe_ranking2(_scores, _pos_idx):
     pos_score = _scores[_pos_idx]  # []
@@ -683,7 +678,7 @@ def main():
                         help="The output directory where the model checkpoints will be written.")
     parser.add_argument("--neg_weights", default=None, type=str)
 
-    parser.add_argument("--distance_metric", default="euclidean", type=str)   # 默认距离度量为mlp
+    parser.add_argument("--distance_metric", default="euclidean", type=str)
     parser.add_argument("--hinge_loss_margin", default=1., type=float)
     parser.add_argument("--pos_weight", default=1, type=float)
     parser.add_argument("--loss_weight", default=1, type=float)
@@ -735,7 +730,7 @@ def main():
     config = config_class.from_pretrained(
         args.config_name if args.config_name else args.model_name_or_path,
     )
-    config.distance_metric = args.distance_metric   # 设置距离函数
+    config.distance_metric = args.distance_metric
     config.hinge_loss_margin = args.hinge_loss_margin
     config.pos_weight = args.pos_weight
     config.loss_weight = args.loss_weight
@@ -755,20 +750,19 @@ def main():
     neg_weights = [1., 1., 0.] if args.neg_weights is None else [float(_e) for _e in args.neg_weights.split(",")]
     assert len(neg_weights) == 3 and sum(neg_weights) > 0
 
-    # 只有train的时候负采样, 没有neg_times
     train_dataset = DatasetForPairwiseRankingLP(
-        args.dataset, "train", None, "/home/wangbo/workspace/StAR/data/",
+        args.dataset, "train", None, StAR_FILE_PATH+"/StAR/data/",
         args.model_class, tokenizer, args.do_lower_case,
         args.max_seq_length,  neg_times=5 ,neg_weights=neg_weights,
-        type_cons_neg_sample=args.type_cons_neg_sample, type_cons_ratio=args.type_cons_ratio  # TODO: remove the unrelater parameter
+        type_cons_neg_sample=args.type_cons_neg_sample, type_cons_ratio=args.type_cons_ratio
     )
     dev_dataset = DatasetForPairwiseRankingLP(
-        args.dataset, "dev", None, "/home/wangbo/workspace/StAR/data/",
+        args.dataset, "dev", None, StAR_FILE_PATH+"/StAR/data/",
         args.model_class, tokenizer, args.do_lower_case,
         args.max_seq_length,
     )
     test_dataset = DatasetForPairwiseRankingLP(
-        args.dataset, "test", None, "/home/wangbo/workspace/StAR/data/",
+        args.dataset, "test", None, StAR_FILE_PATH+"/StAR/data/",
         args.model_class, tokenizer, args.do_lower_case,
         args.max_seq_length,
     )
@@ -778,7 +772,7 @@ def main():
     for type in ['train','dev','test']:
         get_model_dataset(args, model, dataset_list, data_type=type)
     # Get the largest 100 cosine similarities between each candidate and all entities in entity set
-    # get_similarity(args, test_dataset, 100)
+    get_similarity(args, test_dataset, 100)
 
     if args.collect_case:
         collect_case(args, test_dataset.raw_examples, dataset_list, model)
@@ -790,7 +784,7 @@ def main():
         calculate_metrics_for_link_prediction(tuple_ranks, verbose=True)
 
 
-
 if __name__ == '__main__':
     main()
+
 

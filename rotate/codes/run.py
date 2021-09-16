@@ -8,7 +8,6 @@ import argparse
 import json
 import logging
 import os
-import random
 
 import numpy as np
 import torch
@@ -19,7 +18,6 @@ from model import KGEModel
 
 from dataloader import TrainDataset
 from dataloader import BidirectionalOneShotIterator
-from fire_test import complete_embs
 import collections
 from os.path import join
 

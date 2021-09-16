@@ -4,7 +4,7 @@ import os
 import csv
 import sys
 
-USER_HOME = os.getenv("HOME")
+StAR_FILE_PATH = None  # Your own file path
 
 def _truncate_seq_pair(tokens_a, tokens_b, max_length):
     """Truncates a sequence pair in place to the maximum length."""

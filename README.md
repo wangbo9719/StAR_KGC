@@ -8,8 +8,8 @@ The repository is partially based on [huggingface transformers](https://github.c
 
 ## 2. Installing requirement packages
 - conda create -n StAR python=3.6 
-- source activate stelp 
-- pip install numpy torch tensorboardX tqdm boto3 requests regex sacremoses sentencepiece 
+- source activate StAR
+- pip install numpy torch tensorboardX tqdm boto3 requests regex sacremoses sentencepiece matplotlib
 
 ##### 2.1 Optional package (for mixed float Computation)
 - git clone https://github.com/NVIDIA/apex
@@ -135,7 +135,7 @@ python run_link_prediction.py \
     --eval_steps -1 \
     --save_steps 2000 \
     --model_name_or_path roberta-large \
-    --output_dir ./result/FB15k-237_roberta-largel \
+    --output_dir ./result/FB15k-237_roberta-large \
     --num_worker 12 \
     --seed 42 \
     --fp16 \
@@ -205,51 +205,50 @@ python run_link_prediction.py \
 #### 5.1 Data preprocessing
 - Get the trained model of RotatE, more details please refer to [RotatE](https://github.com/DeepGraphLearning/KnowledgeGraphEmbedding).
 - Run the below commands sequentially to get the training dataset of StAR_Self-Adp. 
-	- Run the run_get_unsembele_data.py in ./StAR
+	- Run the run_get_ensemble_data.py in ./StAR
 	```
-	CUDA_VISIBLE_DEVICES=0 python run_get_unsemble_data.py \
+	CUDA_VISIBLE_DEVICES=0 python run_get_ensemble_data.py \
 		--dataset WN18RR \
 		--model_class roberta \
-		--model_name_or_path /home/wangbo/workspace/StAR/result/WN18RR_roberta-large \
-		--output_dir /home/wangbo/workspace/StAR/result/WN18RR_roberta-large \
+		--model_name_or_path ./result/WN18RR_roberta-large \
+		--output_dir ./result/WN18RR_roberta-large \
 		--seed 42 \
 		--fp16 
 	```
 	
-	- Run the run.py in ./RotatE
+	- Run the ./codes/run.py in rotate. (please replace the TRAINED_MODEL_PATH with your own trained model's path)
 	```
-	CUDA_VISIBLE_DEVICES=0 python run.py \
-		--cuda --init models/RotatE_wn18rr_0 \
+	CUDA_VISIBLE_DEVICES=2 python ./codes/run.py \
+		--cuda --init ./models/RotatE_wn18rr_0 \
 		--test_batch_size 16 \
-		--star_info_path ./result/WN18RR_roberta-large/ \
+		--star_info_path TRAINED_MODEL_PATH \
 		--get_scores --get_model_dataset 
 	```
 	
 #### 5.2 Train and Test
 - Run the run.py in ./StAR/ensemble. Note the `--mode` should be alternate in `head` and `tail`, and perform a average operation to get the final results. 
+- Note: Please replace YOUR_OUTPUT_DIR, TRAINED_MODEL_PATH and `StAR_FILE_PATH` in ./StAR/peach/common.py with your own paths to run the command and code.
 ```
 CUDA_VISIBLE_DEVICES=0 python run.py \
 --do_train --do_eval --do_prediction --seen_feature \
---mode tail
---learning_rate 1e-3
---feature_method mix
---neg_times 5
---num_train_epochs 3
---hinge_loss_margin 0.6
---train_batch_size 32
---test_batch_size 64
---logging_steps 100
---save_steps 2000
---eval_steps -1
---warmup_proportion 0
---output_dir ./result/WN18RR_roberta-large_ensemble
---dataset_dir ./result/WN18RR_roberta-large
---context_score_path ./result/WN18RR_roberta-large
---translation_score_path ./RotatE/
---seed 42
+--mode tail \
+--learning_rate 1e-3 \
+--feature_method mix \
+--neg_times 5 \
+--num_train_epochs 3 \
+--hinge_loss_margin 0.6 \
+--train_batch_size 32 \
+--test_batch_size 64 \
+--logging_steps 100 \
+--save_steps 2000 \
+--eval_steps -1 \
+--warmup_proportion 0 \
+--output_dir YOUR_OUTPUT_DIR \
+--dataset_dir TRAINED_MODEL_PATH \
+--context_score_path TRAINED_MODEL_PATH \
+--translation_score_path TRAINED_MODEL_PATH \
+--seed 42 
 ```
-
-
 
 
 

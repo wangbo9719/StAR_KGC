@@ -165,7 +165,6 @@ class EnsembleModel(nn.Module):
         context_scores = torch.load(os.path.join(args.context_score_path, data_type + "_" + args.mode + "_full_scores.list"))
         translation_scores = torch.load(os.path.join(args.translation_score_path, data_type + "_" + args.mode + "_full_scores.list"))
 
-        pos_stelp_score, pos_rotate_score = [], []
         for idx in range(len(context_scores)):
             stelp_pos_loc.append(int(context_scores[idx][0]))
             stelp_score.append(torch.tensor(context_scores[idx][1]))
@@ -209,16 +208,16 @@ class EnsembleModel(nn.Module):
 
 
         # ---get alpha distribution figure---
-        group = [0.05 * i for i in range(0, 21)]
-        plt.cla()
-        plt.hist(alpha.numpy().tolist(), group, rwidth=0.8)
-        plt.xlabel("alpha")
-        plt.ylabel("frequent")
-        plt.title("alpha-frequent figure")
-        plt.savefig(os.path.join(args.output_dir, args.mode+'_'+args.feature_method+'_'+str(args.hinge_loss_margin)+'_' + str(args.learning_rate) +
-                                 '_' + str(args.train_batch_size) +'_'+str(args.num_train_epochs) +'_alpha_figure.jpg'))
-        print("save figure finished!")
-        # ens_score = stelp_score + rotate_score
+        # group = [0.05 * i for i in range(0, 21)]
+        # plt.cla()
+        # plt.hist(alpha.numpy().tolist(), group, rwidth=0.8)
+        # plt.xlabel("alpha")
+        # plt.ylabel("frequent")
+        # plt.title("alpha-frequent figure")
+        # plt.savefig(os.path.join(args.output_dir, args.mode+'_'+args.feature_method+'_'+str(args.hinge_loss_margin)+'_' + str(args.learning_rate) +
+        #                          '_' + str(args.train_batch_size) +'_'+str(args.num_train_epochs) +'_alpha_figure.jpg'))
+        # print("save figure finished!")
+
         ens_score = alpha.unsqueeze(1).expand(-1, stelp_score.shape[1]) * stelp_score \
                     + (1 - alpha).unsqueeze(1).expand(-1, rotate_score.shape[1]) * rotate_score
 
