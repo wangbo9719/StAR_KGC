@@ -750,6 +750,10 @@ def main():
     neg_weights = [1., 1., 0.] if args.neg_weights is None else [float(_e) for _e in args.neg_weights.split(",")]
     assert len(neg_weights) == 3 and sum(neg_weights) > 0
 
+    if StAR_FILE_PATH is None:
+        print("Please replace StAR_FILE_PATH in ./StAR/ensemble/run.py with your own path to run the code.")
+        return
+    
     train_dataset = DatasetForPairwiseRankingLP(
         args.dataset, "train", None, StAR_FILE_PATH+"/StAR/data/",
         args.model_class, tokenizer, args.do_lower_case,
