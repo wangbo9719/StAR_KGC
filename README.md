@@ -112,6 +112,38 @@ python run_link_prediction.py \
     --distance_metric euclidean \
 ```
 
+```
+CUDA_VISIBLE_DEVICES=2 \
+python run_link_prediction.py \
+    --model_class bert \
+    --weight_decay 0.01 \
+    --learning_rate 5e-5 \
+    --adam_betas 0.9,0.98 \
+    --adam_epsilon 1e-6 \
+    --max_grad_norm 0. \
+    --warmup_proportion 0.05 \
+    --do_train --do_eval \
+    --do_prediction \
+    --num_train_epochs 7 \
+    --dataset WN18RR \
+    --max_seq_length 128 \
+    --gradient_accumulation_steps 4 \
+    --train_batch_size 16 \
+    --eval_batch_size 128 \
+    --logging_steps 100 \
+    --eval_steps 4000 \
+    --save_steps 2000 \
+    --model_name_or_path bert-base-uncased \
+    --do_lower_case \
+    --output_dir ./result/WN18RR_bert \
+    --num_worker 12 \
+    --seed 42 \
+    --cls_method cls \
+    --distance_metric euclidean \
+```
+
+
+
 #### 4.2 FB15k-237
 ```
 CUDA_VISIBLE_DEVICES=0 \
@@ -218,10 +250,10 @@ python run_link_prediction.py \
 	
 	- Run the ./codes/run.py in rotate. (please replace the *TRAINED_MODEL_PATH* with your own trained model's path)
 	```
-	CUDA_VISIBLE_DEVICES=2 python ./codes/run.py \
+	CUDA_VISIBLE_DEVICES=3 python ./codes/run.py \
 		--cuda --init ./models/RotatE_wn18rr_0 \
 		--test_batch_size 16 \
-		--star_info_path TRAINED_MODEL_PATH \
+		--star_info_path /home/wangbo/workspace/StAR_KGC-master/StAR/result/WN18RR_roberta-large \
 		--get_scores --get_model_dataset 
 	```
 	
@@ -229,7 +261,7 @@ python run_link_prediction.py \
 - Run the run.py in ./StAR/ensemble. Note the `--mode` should be alternate in `head` and `tail`, and perform a average operation to get the final results. 
 - Note: Please replace *YOUR_OUTPUT_DIR*, *TRAINED_MODEL_PATH* and *StAR_FILE_PATH* in ./StAR/peach/common.py with your own paths to run the command and code.
 ```
-CUDA_VISIBLE_DEVICES=0 python run.py \
+CUDA_VISIBLE_DEVICES=2 python run.py \
 --do_train --do_eval --do_prediction --seen_feature \
 --mode tail \
 --learning_rate 1e-3 \
@@ -243,13 +275,12 @@ CUDA_VISIBLE_DEVICES=0 python run.py \
 --save_steps 2000 \
 --eval_steps -1 \
 --warmup_proportion 0 \
---output_dir YOUR_OUTPUT_DIR \
---dataset_dir TRAINED_MODEL_PATH \
---context_score_path TRAINED_MODEL_PATH \
---translation_score_path TRAINED_MODEL_PATH \
+--output_dir /home/wangbo/workspace/StAR_KGC-master/StAR/result/WN18RR_roberta-large_ensemble  \
+--dataset_dir /home/wangbo/workspace/StAR_KGC-master/StAR/result/WN18RR_roberta-large \
+--context_score_path /home/wangbo/workspace/StAR_KGC-master/StAR/result/WN18RR_roberta-large \
+--translation_score_path /home/wangbo/workspace/StAR_KGC-master/rotate/models/RotatE_wn18rr_0  \
 --seed 42 
 ```
-
 
 
 

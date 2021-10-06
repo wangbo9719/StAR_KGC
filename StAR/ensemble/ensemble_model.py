@@ -218,9 +218,11 @@ class EnsembleModel(nn.Module):
         #                          '_' + str(args.train_batch_size) +'_'+str(args.num_train_epochs) +'_alpha_figure.jpg'))
         # print("save figure finished!")
 
-        ens_score = alpha.unsqueeze(1).expand(-1, stelp_score.shape[1]) * stelp_score \
-                    + (1 - alpha).unsqueeze(1).expand(-1, rotate_score.shape[1]) * rotate_score
-
+        if args.feature_method == 'mix':
+            ens_score = alpha.unsqueeze(1).expand(-1, stelp_score.shape[1]) * stelp_score \
+                        + (1 - alpha).unsqueeze(1).expand(-1, rotate_score.shape[1]) * rotate_score
+        elif args.feature_method == 'add':
+            ens_score = stelp_score + rotate_score
         if args.get_adp_improve:
             stelp_dict = torch.load(join(args.context_score_path, 'cases_alone.dict'))
             rotate_dict = torch.load(join(args.translation_score_path, 'RotatE_case_alone.dict'))

@@ -668,8 +668,8 @@ class KGEModel(nn.Module):
                     step += 1
 
         # [[right_ent_id, [scores]], ...]
-        torch.save(head_score, "./"+data_type+"_head_full_scores.list")
-        torch.save(tail_score, "./"+data_type+"_tail_full_scores.list")
+        torch.save(head_score, args.init_checkpoint + "/"+ data_type+"_head_full_scores.list")
+        torch.save(tail_score, args.init_checkpoint + "/"+data_type+"_tail_full_scores.list")
 
     @staticmethod
     def get_cases(model, test_triples, all_true_triples, args):
@@ -810,10 +810,10 @@ class KGEModel(nn.Module):
         )
 
         star_info_path = args.star_info_path
-        star_head_score = torch.load(star_info_path + data_type + "_head_topN_scores.list")
-        star_head_triple_idx = torch.load(star_info_path + data_type + '_head_triple_idx.list')
-        star_tail_score = torch.load(star_info_path + data_type + "_tail_topN_scores.list")
-        star_tail_triple_idx = torch.load(star_info_path + data_type + '_tail_triple_idx.list')
+        star_head_score = torch.load(star_info_path + '/' + data_type + "_head_topN_scores.list")
+        star_head_triple_idx = torch.load(star_info_path + '/' + data_type + '_head_triple_idx.list')
+        star_tail_score = torch.load(star_info_path + '/' + data_type + "_tail_topN_scores.list")
+        star_tail_triple_idx = torch.load(star_info_path + '/' + data_type + '_tail_triple_idx.list')
 
         test_dataset_list = [test_dataloader_head, test_dataloader_tail]
 

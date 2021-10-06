@@ -393,11 +393,11 @@ def main(args):
 
     # Codes about StAR
     if args.get_scores:
-        for type in ['dev', 'test']:
-            kge_model.get_scores(kge_model, type, valid_triples, all_true_triples, args)
+        kge_model.get_scores(kge_model, 'dev', valid_triples, all_true_triples, args)
+        kge_model.get_scores(kge_model, 'test', test_triples, all_true_triples, args)
 
     if args.get_model_dataset:
-        kge_model.get_model_dataset(kge_model,'train', valid_triples, all_true_triples, args)
+        kge_model.get_model_dataset(kge_model,'train', train_triples, all_true_triples, args)
 
     if args.get_cases:
         kge_model.get_cases(kge_model, test_triples, all_true_triples, args)

@@ -1,10 +1,13 @@
-import sys
 import argparse
 import collections
-from peach.help import *
-from peach.common import StAR_FILE_PATH
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from ensemble.ensemble_model import EnsembleModel
 from ensemble.ensemble_dataset import EnsembleDataset, KbDataset
+from peach.help import *
+from peach.common import StAR_FILE_PATH
+
 
 def get_optimizer(args, model):
     no_decay = ['bias', 'LayerNorm.weight']
@@ -61,7 +64,7 @@ def main():
 
     # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=300, gamma=0.1)
     if StAR_FILE_PATH is None:
-        print("Please replace StAR_FILE_PATH in ./StAR/ensemble/run.py with your own path to run the code.")
+        print("Please replace StAR_FILE_PATH in ./StAR/peach/common.py with your own path to run the code.")
         return
     kb_train_dataset = KbDataset(
         args.dataset, "train", None, StAR_FILE_PATH+"/StAR/data/")
