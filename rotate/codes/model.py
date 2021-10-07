@@ -882,6 +882,8 @@ class KGEModel(nn.Module):
 
                 # [[right_ent_id, [scores]], ...]
                 if mode_idx == 0:
-                    torch.save(ensemble_data, star_info_path + data_type + "_ensemble_head_dataset.list")
+                    torch.save(ensemble_data, star_info_path + "/" + data_type + "_ensemble_head_dataset.list")
+                    print("Ensemble head dataset save finished!")
                 else:
-                    torch.save(ensemble_data, star_info_path + data_type + "_ensemble_tail_dataset.list")
+                    torch.save(ensemble_data, star_info_path + "/" + data_type + "_ensemble_tail_dataset.list")
+                    print("Ensemble tail dataset save finished!")
