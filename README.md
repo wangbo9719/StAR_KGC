@@ -210,7 +210,7 @@ python run_link_prediction.py \
 CUDA_VISIBLE_DEVICES=0 \
 python run_link_prediction.py \
     --model_class bert \
-    --do_train --do_eval \usepacka--do_prediction \
+    --do_train --do_eval --do_prediction \
     --warmup_proportion 0.1 \
     --learning_rate 5e-5 \
     --num_train_epochs 8. \
