@@ -3,6 +3,8 @@
 This repo contains the source code of the paper accepted by WWW'2021. 
 [**"Structure-Augmented Text Representation Learning for Efficient Knowledge Graph Completion"(WWW 2021).**](https://arxiv.org/abs/2004.14781)
 
+🚩 If possible, could you please star this project. ⭐ ↗️
+
 ## 1. Thanks
 The repository is partially based on [huggingface transformers](https://github.com/huggingface/transformers), [KG-BERT](https://github.com/yao8839836/kg-bert) and [RotatE](https://github.com/DeepGraphLearning/KnowledgeGraphEmbedding). 
 
